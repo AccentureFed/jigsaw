@@ -115,6 +115,8 @@ log4j.main = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+<<<<<<< HEAD
+=======
 
 grails.views.javascript.library="jquery"
 
@@ -130,3 +132,4 @@ grails {
 			   "mail.smtp.socketFactory.fallback":"false"]
 	}
  }
+>>>>>>> master
