@@ -1,18 +1,8 @@
 import grails.util.Environment
-import java.lang.management.ManagementFactory
-import javax.servlet.*
-import jigsaw.CacheUpdateJob
 
-
-import org.grails.plugins.metrics.groovy.HealthChecks
-import org.grails.plugins.metrics.groovy.Metrics
-
-import com.codahale.metrics.jvm.BufferPoolMetricSet
-import com.codahale.metrics.jvm.GarbageCollectorMetricSet
-import com.codahale.metrics.jvm.MemoryUsageGaugeSet
-import com.codahale.metrics.jvm.ThreadStatesGaugeSet
-import com.codahale.metrics.jvm.FileDescriptorRatioGauge
-import com.codahale.metrics.servlet.InstrumentedFilter
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.concurrent.TimeUnit
 
 import com.afs.food.recall.FoodRecall
 import com.afs.food.recall.FoodRecallService
@@ -20,6 +10,9 @@ import com.afs.food.recall.RecallState
 import com.afs.jigsaw.fda.food.api.State
 
 class BootStrap {
+
+    def foodRecallService
+    def sessionFactory
 
     def init = { servletContext ->
 
@@ -29,25 +22,6 @@ class BootStrap {
             def dateFormatter = new SimpleDateFormat(FoodRecallService.DATE_FORMAT)
 
             def start = System.nanoTime()
-            
-            /**
-            *Adding Metrics
-            */
-	    	log.debug("Registering Http Instrumented Filter")
-	    	servletContext.setAttribute(InstrumentedFilter.REGISTRY_ATTRIBUTE, Metrics.getRegistry())
-	    	FilterRegistration.Dynamic metricsFilter = servletContext.addFilter('webappMetricsFilter', new InstrumentedFilter())
-	    	metricsFilter.addMappingForUrlPatterns(null, true, '/*')
-	    	metricsFilter.setAsyncSupported(true)
-	        log.debug("Registering JVM gauges")
-			Metrics.getRegistry().register("jvm.buffers", new BufferPoolMetricSet(ManagementFactory.getPlatformMBeanServer()))
-			Metrics.getRegistry().register("jvm.gc", new GarbageCollectorMetricSet())
-			Metrics.getRegistry().register("jvm.memory", new MemoryUsageGaugeSet())
-			Metrics.getRegistry().register("jvm.threads", new ThreadStatesGaugeSet())
-			Metrics.getRegistry().register("jvm.files", new FileDescriptorRatioGauge())
-			log.info("Setting up Database healthcheck")
-		    HealthChecks.register("database",new DatabaseHealthCheck())
-		    log.info("Setting up Storage healthcheck")
-		    HealthChecks.register("filestorage",new StorageHealthCheck())
 
             /**
              * We can only pull 5,000 items at a time, so pull by year to get all recalls
@@ -96,7 +70,6 @@ class BootStrap {
             log.debug("Took ${TimeUnit.NANOSECONDS.toSeconds(end-start)} seconds to cache ${FoodRecall.count()} recalls")
         }
 
-        CacheUpdateJob.triggerNow()
     }
 
     def destroy = {

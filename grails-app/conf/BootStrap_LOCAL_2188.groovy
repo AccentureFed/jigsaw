@@ -1,8 +1,10 @@
 import grails.util.Environment
 import java.lang.management.ManagementFactory
 import javax.servlet.*
-import jigsaw.CacheUpdateJob
 
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.concurrent.TimeUnit
 
 import org.grails.plugins.metrics.groovy.HealthChecks
 import org.grails.plugins.metrics.groovy.Metrics
@@ -20,6 +22,9 @@ import com.afs.food.recall.RecallState
 import com.afs.jigsaw.fda.food.api.State
 
 class BootStrap {
+
+    def foodRecallService
+    def sessionFactory
 
     def init = { servletContext ->
 
@@ -96,7 +101,6 @@ class BootStrap {
             log.debug("Took ${TimeUnit.NANOSECONDS.toSeconds(end-start)} seconds to cache ${FoodRecall.count()} recalls")
         }
 
-        CacheUpdateJob.triggerNow()
     }
 
     def destroy = {

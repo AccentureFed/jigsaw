@@ -1,8 +1,11 @@
+<<<<<<< HEAD
 import grails.util.Environment
 import java.lang.management.ManagementFactory
 import javax.servlet.*
-import jigsaw.CacheUpdateJob
 
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.concurrent.TimeUnit
 
 import org.grails.plugins.metrics.groovy.HealthChecks
 import org.grails.plugins.metrics.groovy.Metrics
@@ -18,10 +21,15 @@ import com.afs.food.recall.FoodRecall
 import com.afs.food.recall.FoodRecallService
 import com.afs.food.recall.RecallState
 import com.afs.jigsaw.fda.food.api.State
+=======
+import jigsaw.CacheUpdateJob
+
+>>>>>>> master
 
 class BootStrap {
 
     def init = { servletContext ->
+<<<<<<< HEAD
 
         if (Environment.current != Environment.TEST) {
             // load all recalls, enrich the data and cache them locally
@@ -96,7 +104,9 @@ class BootStrap {
             log.debug("Took ${TimeUnit.NANOSECONDS.toSeconds(end-start)} seconds to cache ${FoodRecall.count()} recalls")
         }
 
+=======
         CacheUpdateJob.triggerNow()
+>>>>>>> master
     }
 
     def destroy = {
