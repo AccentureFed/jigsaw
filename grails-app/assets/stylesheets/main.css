@@ -444,7 +444,7 @@ a{
 }
 
 #stateContainer {
-	margin-top:27px;
+	margin-top:25px;
 	margin-left:10px;
 	width:30%;
 }
@@ -454,7 +454,7 @@ a{
 }
 
 #dateContainer {
-	margin-top:27px;
+	margin-top:25px;
 	margin-left:10px;
 }
 
@@ -483,7 +483,7 @@ a{
 	color:white;
 }
 
-.table-bordered tbody, p , a{
+.table-bordered tbody, p , a, span {
 	font-size:12px;
 }
 
@@ -587,6 +587,7 @@ a{
 
 #recallListTable thead tr th {
 	width:83px;
+	border:none;
 }
 
 #recallListTable thead tr th:last-child {
@@ -724,5 +725,45 @@ a{
 	
 	#recentTweets, #followFDA {
 		padding:0;
+	}
+	
+	#recallListCell {
+		width:100%;
+	}
+	
+	#recallListTable {
+		width:100%;
+		position:relative;
+	}
+	
+	#recallListTable  thead{
+		position:absolute;
+	}
+	
+	#recallListTable thead tr th:first-child, #recallListTable tbody tr td:first-child {
+		width:24%;
+	}
+	
+	#recallListTable thead tr th {
+		width:10%;
+	}
+	
+	#recallListTable tbody tr td {
+		width:10%;
+	}
+	
+	#recallListTable thead tr th:last-child, #recallListTable tbody tr td:last-child {
+		width:9%;
+	}
+	
+	#recallListTable  tbody{
+		position:absolute;
+		top:35px;
+	}	
+}
+
+@media (max-width: 400px) { 
+	#recallListTable  tbody{
+		top:50px;
 	}
 }
