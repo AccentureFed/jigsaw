@@ -415,6 +415,7 @@ angular.module('jigsawApp')
 			}
 			if (!!$scope.selectedState) {
 	            $scope.oldState = $scope.selectedState;
+	            $('#state_select').selectpicker('val', $scope.selectedState);
 	            $scope.getBriefRecallsByState();
 	            $scope.getStateSeverity($scope.selectedState);
 			}
